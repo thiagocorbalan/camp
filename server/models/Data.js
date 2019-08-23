@@ -1,4 +1,3 @@
-    
 const { Schema, model } = require('mongoose');
 
 const DataSchema = new Schema({
@@ -9,9 +8,11 @@ const DataSchema = new Schema({
     value: {
         type: Number,
         required: true
+    },
+    category: {
+        type: String,
+        required: true
     }
-}, {
-        timestamps: true
-    });
+});
 
-    module.exports = model('Data', DataSchema);
+module.exports = model('Camp', DataSchema);

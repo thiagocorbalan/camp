@@ -1,33 +1,24 @@
 const express = require('express');
-const morgan = require('morgan');
+const mongoose = require('mongoose');
+const routes = require('./routes');
 const cors = require('cors');
 
-const router  = new express.Router();
+const server = express();
 
-const app = express();
+mongoose.connect('mongodb+srv://userartevideo:LerWsCXq2oCPMva8@cluster0-it4x2.mongodb.net/artevideo?retryWrites=true&w=majority', {useNewUrlParser: true});
 
-// const corsOptions = {
-//   origin: 'http://localhost:2012',
-//   optionsSuccessStatus: 200
-// }
-
-
-router.get('/expense', (req, res) => {
-	return res.json({"OK": true}); 
-});
-router.post('/expense', (req, res) => {
-	return res.json({"OK": true}); 
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("mongoose connected");
 });
 
 
-app.use(router);
+server.use(cors());
+server.use(express.json());
+server.use(routes);
 
 
-app.use(cors("*"));
-app.use(morgan('tiny'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-//app.use(require('./routes/index.routes'));
-
-
-app.listen(3300);
+server.listen(5001, () => {
+	console.log('Server is runnning in http://localhost:5001');
+});
