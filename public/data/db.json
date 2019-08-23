@@ -1,0 +1,8 @@
+{
+	"expenses": [
+		{ "id": 1, "desc": "expenses", "value": 1500}
+	],
+	"revenues": [
+		{ "id": 2, "desc": "revenues", "value": 300}
+	]
+}

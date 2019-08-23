@@ -5,60 +5,98 @@ import { FormattedNumber } from 'react-intl';
 
 export default function Main(){
 
-    const expenses = [
-        { name: "Local", value: 28000},
-        { name: "Transporte", value: 28000},
-        { name: "Festas", value: 28000},
-        { name: "Doações para acampantes", value: 5000},
-    ];
+    const expenses = [];
+	const revenues = [];    
 
+	/*
+		{ name: "Local", value: 2000},
+		{ name: "Transporte", value: 5000},
+		{ name: "Festas", value: 1000},
+		{ name: "Doações para acampantes", value: 5000},
+	*/
 
-    const total = expenses.reduce( a => a.value);
-    
+	const expenseTotal = expenses.reduce( (total, expense ) => total + expense.value, 0);
+	const revenueTotal = revenues.reduce( (total, revenue ) => total + revenue.value, 0);
+
+	const result = expenseTotal - revenueTotal;
 
     return(
-        <div className="container">
-            <header className="item">
-                <h1>Acampamento Evoluir 2019</h1>
-                <span>Relatório</span>
-            </header>
+        <div className="main">
+            <div className="jumbotron">
+                <h1 className="display-4"><strong>Acampamento Evoluir 2019</strong> - Relatório</h1>
+            </div>
+            
 
-            <div className="expenses item">
-                <h2>Gastos</h2>
-                
-                <ul>
-                    { expenses.map ( (expense, index) => (
-                        <li key={index}>
-                            {expense.name}: <FormattedNumber value={expense.value} style={`currency`} currency="BRL" /> 
-                        </li>
-                    ))}
-                </ul>
-                
-
-                <p>Total - R$ 46.200,00</p>
+            <div className="revenue card">
+				<div className="card-body">
+					<div className="card-title text-uppercase mb-3 text-success">Receitas</div>
+					<table className="table table-sm ">
+						<thead>
+							<tr>
+								<th scope="col">Descrição</th>
+								<th scope="col" width="50%" className="text-right">Valor</th>
+							</tr>
+						</thead>
+						<tbody>
+							{ revenues.map ( (revenue, index) => (
+									<tr key={index}>
+										<td>{revenue.name}</td>
+										<td className="text-right"><FormattedNumber value={revenue.value} style={`currency`} currency="BRL" /> 
+										</td>
+									</tr>
+								
+							))}
+						</tbody>
+					</table>
+				</div>
+				<div className="card-footer text-success">
+					Total: <FormattedNumber value={revenueTotal} style={`currency`} currency="BRL" /> 
+				</div>
+            </div>
+			
+			<div className="expenses card">
+                <div className="card-body">
+					<div className="card-title text-uppercase mb-3 text-danger">Despesas</div>
+					<div className="overflow-auto">						
+						<table className="table table-sm ">
+							<thead>
+								<tr>
+									<th scope="col">Descrição</th>
+									<th scope="col" width="50%" className="text-right">Valor</th>
+								</tr>
+							</thead>
+							<tbody>
+								{ expenses.map ( (expense, index) => (
+									<tr key={index}>
+										<td>{expense.name}</td>
+										<td className="text-right"><FormattedNumber value={expense.value} style={`currency`} currency="BRL" /> 
+										</td>
+									</tr>
+								
+								))}
+							</tbody>
+							
+						</table>
+					</div>
+				</div>
+				
+				<div className="card-footer text-danger ">
+					Total: <FormattedNumber value={expenseTotal} style={`currency`} currency="BRL" /> 
+				</div>
             </div>
 
-            <div className="revenue item">
-                <h2>Receitas</h2>
-                <ul>
-                    <li>Pagamentos de Acampantes: R$ 7.300,00</li>
-                    <li>Cantinas: R$ 1.000,00</li>
-                    <li>Lava Rápido: R$ 1.000,00</li>
-                    <li>Eventos: R$ 1.000,00</li>
-                    <li>Doações Diretas: R$ 1.000,00</li>
-                    <li>Doações IndiretasDiretas: R$ 1.000,00</li>
-                </ul>
+			
 
-                <p>Total - R$ 46.200,00</p>
+			<div className="other goal card d-flex justify-content-center align-items-center">				
+				<span className="title">Nossa Meta</span>
+				<span className="display-4"><FormattedNumber value={expenseTotal} style={`currency`} currency="BRL" /></span>				
             </div>
 
-            <div className="goal item">
-                <h2>Objetivos</h2>
-                <ul>
-                    <li>Meta: R$ 46.200,00</li>
-                    <li>Falta: R$ 46.200,00</li>
-                </ul>
+            <div className="other target card d-flex justify-content-center align-items-center">
+				<span className="title">Quanto Falta</span>
+				<span className="display-4"><FormattedNumber value={result} style={`currency`} currency="BRL" /> </span>				
             </div>
+            
         </div>
     );
 }
